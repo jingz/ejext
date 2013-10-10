@@ -1,0 +1,23 @@
+.mute {
+    color: #AAA;
+    font-style: italic;
+}
+
+body {
+    background-color: #222;
+    color: white;
+}
+
+/*
+#wrapper {
+    height: 800px;
+}
+
+.slide {
+    height: 740px;
+}
+
+img {
+    border: 2px solid orange;
+}
+*/

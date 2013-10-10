@@ -1,0 +1,26 @@
+<html>
+    <title>Editor</title>
+
+<link rel="stylesheet" type="text/css" href="jslib/codemirror2/lib/codemirror.css" />
+<script type="text/javascript" src="jslib/codemirror2/lib/codemirror.js"></script>
+<script type="text/javascript" src="jslib/codemirror2/mode/yaml/yaml.js"></script>
+<style type="text/css">
+    div.CodeMirror-scroll{ height: 95%;}
+</style>
+<form height="100%">
+    <textarea id='code' name="code" height="100%">
+:layout:
+  panel#viewport:
+
+:config:
+    </textarea>
+</form>
+<script type="text/javascript">
+   window.editor = CodeMirror.fromTextArea( document.getElementById("code"),{
+     mode: "yaml",
+     tabSize: 2,
+     lineNumbers: true,
+     indentWithTabs: false
+});
+</script>
+</html>

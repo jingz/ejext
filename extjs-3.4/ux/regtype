@@ -1,0 +1,15 @@
+Ext.reg('columntree', Ext.ux.tree.ColumnTree);
+Ext.reg('fileuploadfield', Ext.ux.form.FileUploadField);
+Ext.reg('gmappanel', Ext.ux.GMapPanel); Ext.namespace('Ext.ux.grid');
+Ext.reg('grouptab', Ext.ux.GroupTab);
+Ext.reg('grouptabpanel', Ext.ux.GroupTabPanel);
+Ext.reg('itemselector', Ext.ux.form.ItemSelector);
+Ext.reg('multiselect', Ext.ux.form.MultiSelect);
+Ext.reg('portal', Ext.ux.Portal);
+Ext.reg('portalcolumn', Ext.ux.PortalColumn);
+Ext.reg('portlet', Ext.ux.Portlet);
+Ext.reg('selectbox', Ext.ux.form.SelectBox);
+Ext.reg('spinnerfield', Ext.ux.form.SpinnerField);
+Ext.reg('statusbar', Ext.ux.StatusBar);
+Ext.reg('tabscrollermenu', Ext.ux.TabScrollerMenu);
+Ext.reg('treegrid', Ext.ux.tree.TreeGrid);

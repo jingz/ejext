@@ -1,0 +1,15 @@
+bugs
+---
+
+- pager component does not update data when grid have added records
+- uncontrol height of grid; when form is next under the grid which is under hbox mode
+
+plan
+---
+- using Bootstrap and ExtJS for all images / or just FontAwesome
+- alternative javascript syntax "js!" that act as "<js></js>"
+- alias config option "w" stand for "width" and "h" stand for "height"
+
+Todo
+---
+- copy padding/margins of parent container to its children's default config

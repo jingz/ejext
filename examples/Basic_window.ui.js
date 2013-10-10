@@ -1,0 +1,326 @@
+ 
+Basic_windowUI = Ext.extend(Ext.Window,{
+  "y": 10,
+  "height": "auto",
+  "width": 500,
+  "layout": "fit",
+  "title": "Basic Dialog Window",
+  "maximizable": true,
+  "modal": true,
+  "autoDestroy": true,
+  "id": "basic-dialog-window",
+  initComponent: function(){
+    Ext.applyIf(this,
+    {
+  "xtype":"window",
+  "fbar":{
+    "xtype":"toolbar",
+    "autoDestroy":true,
+    "items":[
+      {
+        "xtype":"button",
+        "text":"Create",
+        "padding":"0.2em 0.2em",
+        "style":"{font-weight: bold;}",
+        "iconCls":"icon-add",
+        "autoDestroy":true,
+        "ref":"../create"
+      },
+      {
+        "xtype":"button",
+        "text":"Cancel",
+        "padding":"0.2em 0.2em",
+        "style":"{font-weight: bold;}",
+        "autoDestroy":true,
+        "ref":"../cancel"
+      }
+    ]
+  },
+  "items":[
+    {
+      "xtype":"form",
+      "autoHeight":true,
+      "layout":"form",
+      "labelWidth":200,
+      "labelAlign":"right",
+      "border":false,
+      "title":null,
+      "autoDestroy":true,
+      "frame":true,
+      "fileUpload":true,
+      "ref":"frm",
+      "items":[
+        {
+          "xtype":"fieldset",
+          "layout":"form",
+          "animCollapse":true,
+          "labelAlign":"right",
+          "autoHeight":true,
+          "autoDestroy":true,
+          "labelWidth":78,
+          "items":[
+            {
+              "xtype":"textfield",
+              "width":150,
+              "autoCreate":{
+                "tag":"input",
+                "type":"text",
+                "autocomplete":"off"
+              },
+              "submitValue":true,
+              "name":"text",
+              "fieldLabel":"Text",
+              "autoDestroy":true,
+              "ref":"../../text"
+            },
+            {
+              "xtype":"numberfield",
+              "width":150,
+              "decimalPrecision":2,
+              "decimalSeparator":".",
+              "allowDecimal":true,
+              "allowNegative":false,
+              "cls":"number",
+              "submitValue":true,
+              "name":"number",
+              "fieldLabel":"Number",
+              "autoDestroy":true,
+              "ref":"../../number"
+            },
+            {
+              "xtype":"textfield",
+              "width":150,
+              "cls":"number",
+              "plugins":[
+                {
+                  "ptype":"currency"
+                },
+                {
+                  "ptype":"multiple_validations"
+                }
+              ],
+              "currencyConfig":{
+              },
+              "submitValue":true,
+              "name":"money",
+              "fieldLabel":"Money",
+              "autoDestroy":true,
+              "ref":"../../money"
+            },
+            {
+              "xtype":"textfield",
+              "width":150,
+              "cls":"number",
+              "plugins":[
+                {
+                  "ptype":"currency"
+                }
+              ],
+              "currencyConfig":{
+                "currencySymbol":""
+              },
+              "submitValue":true,
+              "name":"numeric",
+              "fieldLabel":"Numeric",
+              "autoDestroy":true,
+              "ref":"../../numeric"
+            },
+            {
+              "xtype":"combo",
+              "width":150,
+              "store":[
+                "opt1",
+                "opt2",
+                "opt3"
+              ],
+              "minChars":2,
+              "valueField":"key",
+              "displayField":"pair",
+              "cls":"combo",
+              "lazyInit":false,
+              "mode":"local",
+              "triggerAction":"all",
+              "loadingText":"Loading ...",
+              "submitValue":true,
+              "name":"combo",
+              "fieldLabel":"Combo",
+              "emptyText":"Select Combo",
+              "autoDestroy":true,
+              "ref":"../../combo"
+            },
+            {
+              "xtype":"datefield",
+              "width":100,
+              "cls":"date",
+              "submitValue":true,
+              "name":"date",
+              "fieldLabel":"Date",
+              "autoDestroy":true,
+              "ref":"../../date"
+            },
+            {
+              "xtype":"timefield",
+              "width":100,
+              "cls":"time",
+              "submitValue":true,
+              "name":"time",
+              "fieldLabel":"Time",
+              "autoDestroy":true,
+              "ref":"../../time"
+            },
+            {
+              "xtype":"fileuploadfield",
+              "width":250,
+              "buttonText":"Browse",
+              "submitValue":true,
+              "name":"upload",
+              "fieldLabel":"Upload",
+              "autoDestroy":true,
+              "ref":"../../upload"
+            },
+            {
+              "xtype":"compositefield",
+              "submitValue":true,
+              "name":"composite",
+              "fieldLabel":"Composite",
+              "autoDestroy":true,
+              "layout":"form",
+              "labelWidth":85,
+              "ref":"../../composite",
+              "items":[
+                {
+                  "xtype":"textfield",
+                  "width":150,
+                  "autoCreate":{
+                    "tag":"input",
+                    "type":"text",
+                    "autocomplete":"off"
+                  },
+                  "submitValue":true,
+                  "name":"composit_a",
+                  "fieldLabel":"Composit A",
+                  "autoDestroy":true,
+                  "value":"ReadOnly",
+                  "readOnly":true,
+                  "ref":"../../../compositA"
+                },
+                {
+                  "xtype":"textfield",
+                  "width":150,
+                  "autoCreate":{
+                    "tag":"input",
+                    "type":"text",
+                    "autocomplete":"off"
+                  },
+                  "submitValue":true,
+                  "name":"composit_b",
+                  "fieldLabel":"Composit B",
+                  "autoDestroy":true,
+                  "disabled":true,
+                  "value":"Disabled",
+                  "ref":"../../../compositB"
+                },
+                {
+                  "xtype":"button",
+                  "text":"Nothing",
+                  "padding":"0.2em 0.2em",
+                  "style":"{font-weight: bold;}",
+                  "autoDestroy":true,
+                  "ref":"../../../nothing"
+                }
+              ]
+            },
+            {
+              "xtype":"checkboxgroup",
+              "submitValue":true,
+              "name":"chk_group",
+              "fieldLabel":"Chk Group",
+              "autoDestroy":true,
+              "layout":"form",
+              "labelWidth":10,
+              "width":128,
+              "ref":"../../chkGroup",
+              "items":[
+                {
+                  "xtype":"checkbox",
+                  "hideLabel":true,
+                  "cls":"checkbox",
+                  "submitValue":true,
+                  "name":"check_a",
+                  "boxLabel":"Check A",
+                  "autoDestroy":true,
+                  "width":79,
+                  "ref":"../../../checkA"
+                },
+                {
+                  "xtype":"checkbox",
+                  "hideLabel":true,
+                  "cls":"checkbox",
+                  "submitValue":true,
+                  "name":"check_b",
+                  "boxLabel":"Check B",
+                  "autoDestroy":true,
+                  "width":79,
+                  "ref":"../../../checkB"
+                }
+              ]
+            },
+            {
+              "xtype":"radiogroup",
+              "submitValue":true,
+              "name":"radio",
+              "boxLabel":"Radio",
+              "fieldLabel":"Radio",
+              "autoDestroy":true,
+              "layout":"form",
+              "labelWidth":10,
+              "width":142,
+              "ref":"../../radio",
+              "items":[
+                {
+                  "xtype":"radio",
+                  "labelWidth":100,
+                  "hideLabel":true,
+                  "submitValue":true,
+                  "name":"radio",
+                  "boxLabel":"Chanel A",
+                  "inputValue":"chanel_a",
+                  "autoDestroy":true,
+                  "width":86,
+                  "ref":"../../../chanelA"
+                },
+                {
+                  "xtype":"radio",
+                  "labelWidth":100,
+                  "hideLabel":true,
+                  "submitValue":true,
+                  "name":"radio",
+                  "boxLabel":"Chanel B",
+                  "inputValue":"chanel_b",
+                  "autoDestroy":true,
+                  "default":true,
+                  "width":86,
+                  "ref":"../../../chanelB"
+                }
+              ]
+            },
+            {
+              "xtype":"textarea",
+              "width":150,
+              "submitValue":true,
+              "name":"text_area",
+              "fieldLabel":"Text Area",
+              "autoDestroy":true,
+              "ref":"../../textArea"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+});
+    Basic_windowUI.superclass.initComponent.call(this);
+    var self = this;
+    
+  }
+});
