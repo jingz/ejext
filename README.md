@@ -20,7 +20,7 @@ Ejext - Enjoy building ExtJS Application
 
 ### Example Syntax and UI result
 #### Basic Form
-![Basic Form](https://raw.github.com/jingz/flext/master/examples/basic_form.png)
+![Basic Form](https://raw.github.com/jingz/ejext/master/examples/basic_form.png)
 
 Usage
 ===
