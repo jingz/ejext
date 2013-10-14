@@ -4,6 +4,10 @@ require_relative "generator/generator.rb"
 
 set :public_folder => "."
 
+get "/" do
+  redirect to("/try.html")
+end
+
 post "/gen" do
   begin
     h = compile_jext(params['yaml'], "Try")

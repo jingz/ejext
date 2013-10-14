@@ -28,11 +28,13 @@ Usage
 ### Interactive
 start the server to provide output (js) from compling the code edited in the editor
 ```shell
-    $ ruby server.rb
+    $ bundle install
+    ..
+    $ thin start
 ```
-browser to try.html (localhost:3333/try.html) default port is 3333
+browser to localhost:3000/
 
-or see more example at ( localhost:3333/examples/index.html )
+or see more example at ( localhost:3000/examples/index.html )
 
 ### Commandline
 
