@@ -11,18 +11,25 @@ if __FILE__ == $0
 
   commands = ARGV
   f = ARGV[0]
+  with_requirejs = commands.any?{ |a| a == "-with-requirejs" }
   gen_config = {}
   jsclass = commands.grep(/\-\-class/)
+
   if jsclass.count == 1
     jsclass = jsclass.first.match(/\-\-class=(.*)/)[1]
   else
     jsclass = nil
   end
+
   noid = commands.grep(/\-\-noid/).count > 0
+
   if noid 
     gen_config.merge! :noid => true
   end
-  # abort()
+
+  if with_requirejs
+    gen_config.merge! :with_requirejs => true
+  end
 
   if f.nil?
     options_error
