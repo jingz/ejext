@@ -133,7 +133,7 @@ def build_node(*args, &block)
       end
       inherit_config.merge! _config
 	    wrapper = ExtContainer.new({ layout: "hbox", 
-                                    layoutConfig: { pack: "start", align: 'stretchmax'}, 
+                                   layoutConfig: { pack: "start", align: 'stretchmax'}, 
                                     defaults: inherit_config }, 
                                     parent)
       new_element.each do |el|
@@ -187,7 +187,11 @@ def build_node(*args, &block)
                   lb << _lb
                   r.override_config :width => _lb + offset 
                 end
-                c.override_config :width => (lb.max * lb.count) if lb.max > 0 
+                if lb.max > 0 and not c.config[:width]
+                  lb_width = lb.inject(&:+)
+                  # c.override_config :width => (lb.max * lb.count) if lb.max > 0 
+                  c.override_config :width => lb_width
+                end
               end
               lw << c.config[:fieldLabel].size * ExtUtil.FontWidthRatio + offset unless c.config[:fieldLabel].nil?
             end

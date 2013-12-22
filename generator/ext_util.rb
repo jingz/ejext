@@ -205,7 +205,7 @@ class ExtUtil
   end
 
   def self.FontWidthRatio
-    7 
+    9 
   end
   
   def self.all_xtype
