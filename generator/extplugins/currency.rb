@@ -14,6 +14,12 @@ class ExtCurrency < ExtNode
       :plugins => [{ ptype: "currency" }, { ptype: "multiple_validations"}],
       :currencyConfig => {}
     }
+
+    if config[:decimalPrecision]
+      @default_config[:currencyConfig].merge!({ :decimalPrecision => config[:decimalPrecision] })
+      config.delete :decimalPrecision
+    end
+
     super "textfield", config, parent 
   end
 end
