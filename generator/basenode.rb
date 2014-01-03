@@ -99,6 +99,25 @@ class	ExtNode
     end
   end
 
+  def is_field_element?
+    ExtUtil.field_xtype.include? self.xtype
+  end
+
+  def find_field_elements
+    element = []
+    if self.childs.count > 0
+      childs.each do |c|
+        if c.is_field_element?
+          element << c
+        else
+          element += c.find_field_elements
+        end
+      end
+    end
+
+    element
+  end
+
   def find(xtype, option = nil)
     return false unless has_child?
     if(!option.nil? and option[:recursive])

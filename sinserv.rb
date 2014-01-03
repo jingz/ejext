@@ -1,6 +1,6 @@
 require "sinatra"
 require "awesome_print"
-require_relative "generator/generator.rb"
+require "./generator/generator"
 
 set :public_folder => "."
 

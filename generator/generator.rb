@@ -1,15 +1,15 @@
 require 'yaml'
 require "json"
-require "pp"
-require "awesome_print"
-require "jsmin"
-
+# require "awesome_print"
+# require "jsmin"
 BASE_DIR = File.dirname(__FILE__) 
 $: << BASE_DIR 
+
 # $: << File.dirname(__FILE__) 
 require "parser"
-require "ext_util.rb"
-require "basenode.rb"
+require "ext_util"
+require "basenode"
+
 
 Dir.open("#{BASE_DIR}/extmodules").each do |f|
   next unless f.match /rb$/ 
@@ -32,6 +32,7 @@ end
 def build_node(*args, &block)
   element = args[0]
   parent = args[1]
+  params = args[2] || {}
 
   if parent.nil?
     k = element.keys.first
@@ -60,20 +61,17 @@ def build_node(*args, &block)
         node.childs.each do |c|
          if c.xtype == "container" and 
             c.config[:layout] == "hbox" and 
-            node.xtype == "container"
-           # adjust the first input element of hbox to use default labelwith as the
-           # same sibling
-           # TODO if the input element has longest label length
+            node.xtype == "container" and
            if c.child_of? "fieldset", "form"
-             c.config.delete :labelWidth
+             # c.config.delete :labelWidth
              c.childs.each do |_c|
-               _c.config.delete :labelWidth
+               # _c.config.delete :labelWidth
                _c.config.delete :defaults
                _c.config.delete :style
                _c.config.merge! :margins => "0 0"
                _c.childs.each do |_f|
                  if ExtUtil.field_xtype.include? _f.xtype
-                  _f.config.delete :labelWidth 
+                   # _f.config.delete :labelWidth 
                  end
                end
                break;
@@ -98,26 +96,6 @@ def build_node(*args, &block)
     begin
       
     if element[0].is_a? Array
-       # array of array tend to use hbox 
-       # realignment array
-        
-       # exceptional build for grid
-       # if ["grid", "editorgrid"].include? parent.xtype
-       #   # column
-       #   columns = []
-       #   element[0].each do |el|
-       #      columns << build_node el, parent, &block 
-       #   end
-       # end
-
-       # TODO inconsistency element
-       # new_element = []
-       # element.map{|el| el.count }.max.times{ new_element << []}
-       # element.each do |el|
-       #   el.each_index do |i|
-       #     new_element[i] << el[i]
-       #   end
-       # end
       new_element = element
 
       # default config
@@ -136,8 +114,8 @@ def build_node(*args, &block)
                                    layoutConfig: { pack: "start", align: 'stretchmax'}, 
                                     defaults: inherit_config }, 
                                     parent)
-      new_element.each do |el|
-        wrapper.add_child(build_node(el, wrapper, &block)) 
+      new_element.each_with_index do |el, col|
+        wrapper.add_child(build_node(el, wrapper, { :col_index => col } , &block))
       end
       wrapper 
     else
@@ -146,29 +124,18 @@ def build_node(*args, &block)
                                  autoHeight: true, 
                                  style: "{ height: 100%; margin: 0em 0em; }", 
                                  defaults: { margins: "0 0"}}, parent)
-       element.each	do |el|
+       element.each_with_index	do |el, col|
+         node.config.merge! params
          node.add_child(build_node(el, node, &block))
        end
        
        # check first child is the field component
        if node.childs.count > 0
-        if ExtUtil.field_xtype.include?(node.childs.first.xtype) and "toolbar" != parent.xtype
+        if ExtUtil.field_xtype.include?(node.childs.first.xtype) and 
+          "toolbar" != parent.xtype
           # inherit fieldLableWidth 
           _config = { :layout => "form" }
           pnode = node.find_parent("form","fieldset");
-          # parentLabelWidth =  pnode.config[:labelWidth]
-          # if parentLabelWidth
-          #   node.childs.each do |c|
-          #     next if c.xtype == "hidden"
-          #     if ["radiogroup","checkboxgroup"].include? c.xtype
-          #       c.childs.each do |r|
-          #         r.override_config :width => ( parentLabelWidth / c.childs.count )
-          #       end
-          #     end
-          #     c.override_config :labelWidth => parentLabelWidth
-          #     p c.config[:labelWidth], c.xtype
-          #   end
-          # else
             # calculated proper labelWidth
             lw = []
             mlb = 0 # max label width
@@ -177,9 +144,6 @@ def build_node(*args, &block)
             node.childs.each  do |c|
               next if c.xtype == "hidden"
               is_contain_fieldset = true if c.xtype == "fieldset"
-              # if c.xtype == "uxaccount"
-              #   p c.config, c.childs
-              # end
               if ["radiogroup","checkboxgroup"].include? c.xtype
                 lb = [] 
                 c.childs.each do |r|
@@ -238,6 +202,7 @@ def build_node(*args, &block)
       puts e.message, e.backtrace, __FILE__, __LINE__, "in Array of"
       raise e
     end
+
 	elsif element.is_a? String
 			# leaf node
 			xtype, options = ExtParser.parse(element)		
@@ -249,6 +214,7 @@ end
 
 def compile_jext(yaml_str, js_class, options={})
   ast = YAML.load(yaml_str)
+  ap ast
   # require "awesome_print"
   # separate layout and config
   layout = ast[:layout]

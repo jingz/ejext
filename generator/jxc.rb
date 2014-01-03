@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 $: << File.dirname($0)
 require 'generator'
 
