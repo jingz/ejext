@@ -63,15 +63,16 @@ def build_node(*args, &block)
             c.config[:layout] == "hbox" and 
             node.xtype == "container" and
            if c.child_of? "fieldset", "form"
-             # c.config.delete :labelWidth
+             c.config.delete :labelWidth
              c.childs.each do |_c|
                # _c.config.delete :labelWidth
                _c.config.delete :defaults
                _c.config.delete :style
-               _c.config.merge! :margins => "0 0"
+               _c.config.merge!({:margins => "0 0", :col_index => 0})
                _c.childs.each do |_f|
                  if ExtUtil.field_xtype.include? _f.xtype
-                   # _f.config.delete :labelWidth 
+                   _f.config.delete :labelWidth 
+                   # break;
                  end
                end
                break;
@@ -214,7 +215,7 @@ end
 
 def compile_jext(yaml_str, js_class, options={})
   ast = YAML.load(yaml_str)
-  ap ast
+  # ap ast
   # require "awesome_print"
   # separate layout and config
   layout = ast[:layout]

@@ -17,6 +17,8 @@ module FormField
           end
           unless base.to_s.match /Checkbox$|Radio$/
             @default_config.merge! :fieldLabel => conv_id_to_label.capitalize
+            label_width = @default_config[:fieldLabel].size * ExtUtil.FontWidthRatio + 15
+            @default_config.merge! :labelWidth => label_width
           end
         end
       end

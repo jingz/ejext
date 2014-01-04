@@ -20,12 +20,16 @@ class ExtFieldset < ExtNode
 
   def to_extjs(at_deep = 0)
     col_label_width = []
+    x = self.find_field_elements.map do |c|
+      [c.config[:fieldLabel], c.parent.config[:col_index], c.parent.config[:labelWidth] ]
+    end
     self.find_field_elements.each do |c|
-      next unless c.parent.config[:col_index]
-      unless col_label_width[c.parent.config[:col_index]] 
-        col_label_width[c.parent.config[:col_index]] = []
+      i = c.parent.config[:col_index] || 0
+      next unless i
+      unless col_label_width[i] 
+        col_label_width[i] = []
       end
-      col_label_width[c.parent.config[:col_index]] << c.parent.config[:labelWidth]
+      col_label_width[i] << c.parent.config[:labelWidth]
     end
     max_label_width = []
     col_label_width.each_with_index do |c, i|
@@ -34,9 +38,10 @@ class ExtFieldset < ExtNode
 
     # update max label with in every container of fields
     self.find_field_elements.each do |c|
-      next unless c.parent.config[:col_index]
-      c.parent.config[:labelWidth] = max_label_width[c.parent.config[:col_index]]
+      i = c.parent.config[:col_index] || 0
+      c.parent.config[:labelWidth] = max_label_width[i]
     end
+
     super(at_deep)
   end
 end
