@@ -61,11 +61,12 @@ def build_node(*args, &block)
         node.childs.each do |c|
          if c.xtype == "container" and 
             c.config[:layout] == "hbox" and 
-            node.xtype == "container" and
+            node.xtype == "container"
+
            if c.child_of? "fieldset", "form"
              c.config.delete :labelWidth
              c.childs.each do |_c|
-               # _c.config.delete :labelWidth
+               _c.config.delete :labelWidth
                _c.config.delete :defaults
                _c.config.delete :style
                _c.config.merge!({:margins => "0 0", :col_index => 0})
@@ -78,6 +79,7 @@ def build_node(*args, &block)
                break;
              end
            end
+
          end
         end
         wrapper_hash.add_child node
@@ -93,6 +95,7 @@ def build_node(*args, &block)
       puts e.message, __FILE__, __LINE__, "in Hash" 
       raise e
     end
+
 	elsif element.is_a? Array
     begin
       
@@ -120,11 +123,13 @@ def build_node(*args, &block)
       end
       wrapper 
     else
+
 		   node = ExtContainer.new({ layout: "anchor", 
                                  renderHidden: false, 
                                  autoHeight: true, 
                                  style: "{ height: 100%; margin: 0em 0em; }", 
                                  defaults: { margins: "0 0"}}, parent)
+
        element.each_with_index	do |el, col|
          node.config.merge! params
          node.add_child(build_node(el, node, &block))
@@ -145,6 +150,12 @@ def build_node(*args, &block)
             node.childs.each  do |c|
               next if c.xtype == "hidden"
               is_contain_fieldset = true if c.xtype == "fieldset"
+              # user config
+              if c.config[:labelWidth]
+                lw << c.config[:labelWidth]
+                next
+              end
+
               if ["radiogroup","checkboxgroup"].include? c.xtype
                 lb = [] 
                 c.childs.each do |r|
@@ -158,9 +169,14 @@ def build_node(*args, &block)
                   c.override_config :width => lb_width
                 end
               end
-              lw << c.config[:fieldLabel].size * ExtUtil.FontWidthRatio + offset unless c.config[:fieldLabel].nil?
+
+              if not c.config[:fieldLabel].nil? and c.config[:labelWidth].nil?
+                lw << c.config[:fieldLabel].size * ExtUtil.FontWidthRatio + offset
+              end
+
             end
-            _config.merge! :labelWidth => lw.max || 10 if pnode and pnode.config[:labelWidth].nil?
+
+            _config.merge! :labelWidth => lw.max || 10 if pnode  # and pnode.config[:labelWidth].nil?
 
             node.override_config _config
 
