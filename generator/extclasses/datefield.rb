@@ -8,6 +8,7 @@ class ExtDatefield < ExtNode
   def initialize(config, parent)
     @default_config = {
         width: 100,
+        dateFormat: 'd/m/Y',
         cls: "date"
     }
     super "datefield", config, parent 
