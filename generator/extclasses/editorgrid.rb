@@ -9,6 +9,7 @@ class ExtEditorgrid < ExtNode
 	def initialize(config, parent)
     @default_config = {
       title: 'My Grid',
+      sm: "",
       frame: true,
       width: "auto",
       height: 200,
@@ -89,9 +90,33 @@ class ExtEditorgrid < ExtNode
       paging.override_config :store => @config[:store]
       @config.merge! :bbar => paging.to_extjs(at_deep + 1)
     end
+    
+    # rowselection type : row | rows, cell | cells, checkbox | checkboxs
+    unless @config[:selector].nil?
+      # generate random js variable name
+      require "securerandom"
+      var = SecureRandom.urlsafe_base64.gsub(/\d|\W/,'')
+      case @config[:selector]
+      when "row"
+        @config.merge! :sm => "<js>(this._#{var} = new Ext.grid.RowSelectionModel({ singleSelect: true }))</js>)"
+      when "rows"
+        @config.merge! :sm => "<js>(this._#{var} = new Ext.grid.RowSelectionModel({ singleSelect: false }))</js>)"
+      # TODO
+      # when "cell"
+      #   @config.merge! :sm => "<js>(this._#{var} = new Ext.grid.CellSelectionModel())</js>)" 
+      when "checkbox"
+        @config.merge! :sm => "<js>(this._#{var} = new Ext.grid.CheckboxSelectionModel({ singleSelect: true, header: '' }))</js>)"
+        @config[:columns].unshift("<js>this._#{var}</js>")
+      when "checkboxs", "checkboxes"
+        @config.merge! :sm => "<js>(this._#{var} = new Ext.grid.CheckboxSelectionModel())</js>)"
+        @config[:columns].unshift("<js>this._#{var}</js>")
+      end
+      @config.delete :selector 
+    end
 
     # grid not allow to have items
     self.childs = []
+
     super(at_deep)
   end
 end

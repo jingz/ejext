@@ -72,7 +72,7 @@ def build_node(*args, &block)
                _c.config.merge!({:margins => "0 0", :col_index => 0})
                _c.childs.each do |_f|
                  if ExtUtil.field_xtype.include? _f.xtype
-                   _f.config.delete :labelWidth 
+                   # _f.config.delete :labelWidth 
                    # break;
                  end
                end
@@ -152,6 +152,7 @@ def build_node(*args, &block)
               is_contain_fieldset = true if c.xtype == "fieldset"
               # user config
               if c.config[:labelWidth]
+                # puts "#{c.config[:fieldLabel]} #{c.config[:labelWidth]}"
                 lw << c.config[:labelWidth]
                 next
               end
@@ -165,13 +166,12 @@ def build_node(*args, &block)
                 end
                 if lb.max > 0 and not c.config[:width]
                   lb_width = lb.inject(&:+)
-                  # c.override_config :width => (lb.max * lb.count) if lb.max > 0 
                   c.override_config :width => lb_width
                 end
               end
 
               if not c.config[:fieldLabel].nil? and c.config[:labelWidth].nil?
-                lw << c.config[:fieldLabel].size * ExtUtil.FontWidthRatio + offset
+                lw << (c.config[:fieldLabel].size * ExtUtil.FontWidthRatio + offset)
               end
 
             end
@@ -179,6 +179,7 @@ def build_node(*args, &block)
             _config.merge! :labelWidth => lw.max || 10 if pnode  # and pnode.config[:labelWidth].nil?
 
             node.override_config _config
+            node.config.merge! :defaults => { :labelWidth => lw.max }
 
             # fix for chrome 21.x
             # container should have layout auto for fieldset

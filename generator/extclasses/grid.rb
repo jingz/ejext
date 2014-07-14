@@ -66,7 +66,7 @@ class	ExtGrid < ExtNode
       when "checkbox"
         @config.merge! :sm => "<js>(this._#{var} = new Ext.grid.CheckboxSelectionModel({ singleSelect: true, header: '' }))</js>)"
         @config[:columns].unshift("<js>this._#{var}</js>")
-      when "checkboxs"
+      when "checkboxs", "checkboxes"
         @config.merge! :sm => "<js>(this._#{var} = new Ext.grid.CheckboxSelectionModel())</js>)"
         @config[:columns].unshift("<js>this._#{var}</js>")
       end
