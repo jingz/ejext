@@ -43,6 +43,10 @@ if __FILE__ == $0
 
   # loop generate by given files
   files.each do |file|
+    dirname = File.dirname(File.absolute_path(file))
+    # for preload
+    gen_config.merge!( :filedir => dirname )
+
     js_class = file.split("/").last[0..-6] # strip .yaml
     yaml_str = File.open(file,'rb')
 
@@ -52,13 +56,13 @@ if __FILE__ == $0
     contents = compile_jext(yaml_str, js_class, gen_config)
 
     # create js ui file
-    File.open("#{js_class}.ui.js","w") do |f|
+    File.open("#{dirname}/#{js_class}.ui.js","w") do |f|
       f.write(contents[:ui_class_content])
     end
     puts "#{js_class}.ui.js created"
 
     # gen js event script
-    unless File.exist?("#{js_class}.js")
+    unless File.exist?("#{dirname}/#{js_class}.js")
       File.open("#{js_class}.js","w") do |f|
         f.write(contents[:event_class_content])
       end

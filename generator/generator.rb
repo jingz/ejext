@@ -141,7 +141,7 @@ def build_node(*args, &block)
           "toolbar" != parent.xtype
           # inherit fieldLableWidth 
           _config = { :layout => "form" }
-          pnode = node.find_parent("form","fieldset");
+          pnode = node.find_parent("form","fieldset")
             # calculated proper labelWidth
             lw = []
             mlb = 0 # max label width
@@ -176,7 +176,7 @@ def build_node(*args, &block)
 
             end
 
-            _config.merge! :labelWidth => lw.max || 10 if pnode  # and pnode.config[:labelWidth].nil?
+            _config.merge! :labelWidth => lw.max || 10 if pnode and pnode.config[:labelWidth].nil?
 
             node.override_config _config
             node.config.merge! :defaults => { :labelWidth => lw.max }
