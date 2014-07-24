@@ -6,8 +6,8 @@ module FormField
       define_method :prepare_config do
         mod_field rescue "skip"
         unless @config[:id].nil?
-          @config.merge! :submitValue => true
-          @config.merge! :name => conv_id_to_name
+          @config.merge!(:submitValue => true) unless @config[:submitValue]
+          @config.merge!(:name => conv_id_to_name) unless @config[:name]
           if base.to_s.match /Checkbox$|Radio$|Radiogroup$/
             @default_config.merge! :boxLabel => conv_id_to_label.capitalize
           end
