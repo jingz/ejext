@@ -59,6 +59,12 @@ def build_node(*args, &block)
   			node = eval("Ext#{xtype.capitalize}").new(options, parent)
         node.add_child(build_node(v, node, &block))
         node.childs.each do |c|
+         if c.xtype == "container" and c.config[:layout] == 'form'
+           if c.config[:labelWidth].nil?
+             c.config.delete :labelWidth 
+           end
+         end
+
          if c.xtype == "container" and 
             c.config[:layout] == "hbox" and 
             node.xtype == "container"
@@ -72,7 +78,9 @@ def build_node(*args, &block)
                _c.config.merge!({:margins => "0 0", :col_index => 0})
                _c.childs.each do |_f|
                  if ExtUtil.field_xtype.include? _f.xtype
-                   # _f.config.delete :labelWidth 
+                   if _f.config[:labelWidth].nil?
+                     _f.config.delete :labelWidth 
+                   end
                    # break;
                  end
                end
@@ -121,6 +129,7 @@ def build_node(*args, &block)
       new_element.each_with_index do |el, col|
         wrapper.add_child(build_node(el, wrapper, { :col_index => col } , &block))
       end
+
       wrapper 
     else
 
@@ -214,6 +223,14 @@ def build_node(*args, &block)
           node = node.childs
        end
 
+       unless node.is_a? Array
+         if node.xtype == "container"
+           if node.config[:labelWidth].nil?
+             node.config.delete :labelWidth 
+           end
+         end
+       end
+
        node
     end
     rescue Exception => e
@@ -284,7 +301,7 @@ def compile_jext(yaml_str, js_class, options={})
     p "raise", __FILE__, __LINE__, e
     raise e
   end
-  
+
   # tree has built
 
   # set to_extjs option

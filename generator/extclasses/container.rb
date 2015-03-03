@@ -9,4 +9,14 @@ class ExtContainer < ExtNode
 
 		super("container", config, parent)	
 	end
+
+  def to_extjs(at_deep)
+    if config[:layout] == 'form'
+      if config[:labelWidth].nil?
+        config.delete :labelWidth 
+      end
+    end
+    
+    super(at_deep)
+  end
 end
