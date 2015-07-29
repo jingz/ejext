@@ -180,7 +180,13 @@ def build_node(*args, &block)
               end
 
               if not c.config[:fieldLabel].nil? and c.config[:labelWidth].nil?
-                lw << (c.config[:fieldLabel].size * ExtUtil.FontWidthRatio + offset)
+                composite_parent = c.find_parent('compositefield')
+                if composite_parent
+                  _fl = composite_parent.config[:fieldLabel].size
+                else
+                  _fl = c.config[:fieldLabel].size
+                end
+                lw << (_fl * ExtUtil.FontWidthRatio + offset)
               end
 
             end
